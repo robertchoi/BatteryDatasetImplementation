@@ -6,6 +6,9 @@ from PyQt5.QtWidgets import *
 from PyQt5 import uic
 from pyqtgraph import PlotWidget, plot
 import pyqtgraph as pg
+import tensorflow as tf
+import keras
+from tensorflow.keras.models import load_model
 
 
 form_class = uic.loadUiType("wt0.ui")[0]
@@ -72,7 +75,23 @@ class MyWindow(QMainWindow, form_class):
         #print(x_val)
         #print(y_val)
         self.plot(x_val,y_val)
+
+        ptest_val = y_val[0:20]
+        ptest_label = self.make_dataset(ptest_val, 20)
+
+        print(ptest_label)
+        model = keras.models.load_model("finalTest.h5")
+        #prediction = model.predict(ptest_label, batch_size=16)
+        #pred = scaler.inverse_transform(prediction[-1])
+        #print(pred)
                 
+
+    def make_dataset(self, data, window_size=20):
+        label_list = []
+        for i in range(len(data) - window_size-19):
+            label_list.append(np.array(label.iloc[i+window_size+20]))
+        return np.array(label_list)
+
 
     def setTableWidgetData(self):
         column_headers = ['타임 스템프', '내부저항', '예측치']
