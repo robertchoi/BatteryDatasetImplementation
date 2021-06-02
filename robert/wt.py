@@ -7,8 +7,8 @@ from PyQt5 import uic
 from pyqtgraph import PlotWidget, plot
 import pyqtgraph as pg
 import tensorflow as tf
-import keras
 from tensorflow.keras.models import load_model
+from sklearn.preprocessing import MinMaxScaler
 
 
 form_class = uic.loadUiType("wt0.ui")[0]
@@ -23,6 +23,8 @@ class MyWindow(QMainWindow, form_class):
         self.tableWidget.setRowCount(100)
         self.tableWidget.setColumnCount(3)
         self.tableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
+
+        self.tableWidget.cellDoubleClicked.connect(self.table_DoubleClicked)
 
         #self.plot([1,2,3],[30,40,50])
 
@@ -59,6 +61,9 @@ class MyWindow(QMainWindow, form_class):
         x_val = np.arange(len(df_cell))
         y_val = df_cell.ResistValue.to_numpy()
         t_val = df_cell.KeyTime.to_numpy()
+
+        global s_val
+        s_val = df_cell.ResistValue
         
         self.tableWidget.setRowCount(len(df_cell))
         for i in range(0, len(y_val)):
@@ -76,20 +81,45 @@ class MyWindow(QMainWindow, form_class):
         #print(y_val)
         self.plot(x_val,y_val)
 
-        ptest_val = y_val[0:20]
-        ptest_label = self.make_dataset(ptest_val, 20)
 
+
+    def predict_proc(self, st=19):
+        ptest_label = self.make_dataset(s_val, 20, 19)
+        ptest_label = np.array(ptest_label).reshape(20,20,1)
         print(ptest_label)
-        model = keras.models.load_model("finalTest.h5")
-        #prediction = model.predict(ptest_label, batch_size=16)
-        #pred = scaler.inverse_transform(prediction[-1])
-        #print(pred)
-                
+        #MODEL_PATH = "F:\\github\\BatteryDatasetImplementation\\robert\\model_d10.h5"
+        global model
+        MODEL_PATH = "model_d10.h5"
+        model = load_model(MODEL_PATH, compile = False)
+        prediction = model.predict(ptest_label)
+        global scaler
+        scaler = MinMaxScaler()
+        scaler.fit(np.array(ptest_label[0]))
+        pred = scaler.inverse_transform(prediction[-1])
+        print(pred)
+        print(type(pred))
 
-    def make_dataset(self, data, window_size=20):
+        for i in range(0, len(pred)):
+            s = '{0:0.3f}'.format(pred[i,0])
+            #print(s)
+            itemY = QTableWidgetItem(s)
+            self.tableWidget.setItem(i+st+1,2,itemY)
+
+
+
+
+                
+    def table_DoubleClicked(self):
+        select_val = self.tableWidget.currentRow();
+        print(select_val)
+        self.tableWidget.selectRow(select_val)
+        self.predict_proc(select_val)   
+
+
+    def make_dataset(self, data, window_size=20, selectTime=19):
         label_list = []
-        for i in range(len(data) - window_size-19):
-            label_list.append(np.array(label.iloc[i+window_size+20]))
+        for i in range(20):
+            label_list.append(np.array(data.iloc[selectTime-19+i:selectTime-19+i+window_size]))
         return np.array(label_list)
 
 
