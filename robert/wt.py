@@ -55,13 +55,18 @@ class MyWindow(QMainWindow, form_class):
 
         x_val = np.arange(len(df_cell))
         y_val = df_cell.ResistValue.to_numpy()
+        t_val = df_cell.KeyTime.to_numpy()
         
         self.tableWidget.setRowCount(len(df_cell))
         for i in range(0, len(y_val)):
             s = '{0:0.3f}'.format(y_val[i])
             #print(s)
             itemY = QTableWidgetItem(s)
-            self.tableWidget.setItem(i,0,itemY)    
+            self.tableWidget.setItem(i,1,itemY)
+            s = '{}'.format(t_val[i])
+            #print(s)
+            itemY = QTableWidgetItem(s)
+            self.tableWidget.setItem(i,0,itemY)      
         
         self.setTableWidgetData()
         #print(x_val)
@@ -70,7 +75,7 @@ class MyWindow(QMainWindow, form_class):
                 
 
     def setTableWidgetData(self):
-        column_headers = ['내부저항', '예측치']
+        column_headers = ['타임 스템프', '내부저항', '예측치']
         self.tableWidget.setHorizontalHeaderLabels(column_headers)
         self.tableWidget.resizeColumnsToContents()
         self.tableWidget.resizeRowsToContents()
@@ -85,14 +90,18 @@ class MyWindow(QMainWindow, form_class):
 
         x_val = np.arange(len(df_cell))
         y_val = df_cell.ResistValue.to_numpy()
+        t_val = df_cell.KeyTime.to_numpy()
 
         self.tableWidget.setRowCount(len(df_cell))
         for i in range(0, len(y_val)):
             s = '{0:0.3f}'.format(y_val[i])
             #print(s)
             itemY = QTableWidgetItem(s)
-            self.tableWidget.setItem(i,0,itemY)         
-        
+            self.tableWidget.setItem(i,1,itemY)         
+            s = '{}'.format(t_val[i])
+            #print(s)
+            itemY = QTableWidgetItem(s)
+            self.tableWidget.setItem(i,0,itemY)             
         #print(x_val)
         #print(y_val)
         self.plot(x_val,y_val)

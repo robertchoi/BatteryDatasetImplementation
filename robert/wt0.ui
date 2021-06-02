@@ -134,12 +134,17 @@
     </property>
     <column>
      <property name="text">
-      <string>타임</string>
+      <string>타임 스탬프</string>
      </property>
     </column>
     <column>
      <property name="text">
       <string>내부저항</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>예측치</string>
      </property>
     </column>
    </widget>
