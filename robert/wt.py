@@ -26,6 +26,11 @@ class MyWindow(QMainWindow, form_class):
 
         self.tableWidget.cellDoubleClicked.connect(self.table_DoubleClicked)
 
+
+        self.tableWidget_2.setRowCount(1)
+        self.tableWidget_2.setColumnCount(10)
+        self.tableWidget_2.setEditTriggers(QAbstractItemView.NoEditTriggers)
+
         #self.plot([1,2,3],[30,40,50])
 
     def getYvalue(self, minValue, maxValue):
@@ -74,7 +79,14 @@ class MyWindow(QMainWindow, form_class):
             s = '{}'.format(t_val[i])
             #print(s)
             itemY = QTableWidgetItem(s)
-            self.tableWidget.setItem(i,0,itemY)      
+            self.tableWidget.setItem(i,0,itemY)    
+
+
+        for i in range(0, 10):
+            s = "0"
+            #print(s)
+            itemY = QTableWidgetItem(s)
+            self.tableWidget_2.setItem(0,i,itemY)      
         
         self.setTableWidgetData()
         #print(x_val)
@@ -103,7 +115,14 @@ class MyWindow(QMainWindow, form_class):
             s = '{0:0.3f}'.format(pred[i,0])
             #print(s)
             itemY = QTableWidgetItem(s)
-            self.tableWidget.setItem(i+st+1,2,itemY)
+            if i+st+1 < len(df_cell):
+                self.tableWidget.setItem(i+st+1,2,itemY)
+
+        for i in range(0, 10):
+            s = '{0:0.3f}'.format(pred[i,0])
+            #print(s)
+            itemY = QTableWidgetItem(s)
+            self.tableWidget_2.setItem(0,i,itemY)  
 
 
 
@@ -128,6 +147,7 @@ class MyWindow(QMainWindow, form_class):
         self.tableWidget.setHorizontalHeaderLabels(column_headers)
         self.tableWidget.resizeColumnsToContents()
         self.tableWidget.resizeRowsToContents()
+        self.tableWidget_2.resizeRowsToContents()
 
     def spinBoxChanged(self):
         val = self.spinBox.value()
