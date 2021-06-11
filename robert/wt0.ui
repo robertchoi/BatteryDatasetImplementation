@@ -213,6 +213,56 @@
       <string>D+10</string>
      </property>
     </column>
+    <column>
+     <property name="text">
+      <string>D+11</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>D+12</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>D+13</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>D+14</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>D+15</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>D+16</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>D+17</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>D+18</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>D+19</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>D+20</string>
+     </property>
+    </column>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

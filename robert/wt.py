@@ -28,7 +28,7 @@ class MyWindow(QMainWindow, form_class):
 
 
         self.tableWidget_2.setRowCount(1)
-        self.tableWidget_2.setColumnCount(10)
+        self.tableWidget_2.setColumnCount(20)
         self.tableWidget_2.setEditTriggers(QAbstractItemView.NoEditTriggers)
 
         #self.plot([1,2,3],[30,40,50])
@@ -118,7 +118,7 @@ class MyWindow(QMainWindow, form_class):
             if i+st+1 < len(df_cell):
                 self.tableWidget.setItem(i+st+1,2,itemY)
 
-        for i in range(0, 10):
+        for i in range(0, 20):
             s = '{0:0.3f}'.format(pred[i,0])
             #print(s)
             itemY = QTableWidgetItem(s)
