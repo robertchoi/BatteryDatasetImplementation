@@ -96,7 +96,7 @@ class MyWindow(QMainWindow, form_class):
 
 
     def predict_proc(self, st=19):
-        ptest_label = self.make_dataset(s_val, 20, 19)
+        ptest_label = self.make_dataset(s_val, 20, st)
         ptest_label = np.array(ptest_label).reshape(20,20,1)
         print(ptest_label)
         #MODEL_PATH = "F:\\github\\BatteryDatasetImplementation\\robert\\model_d10.h5"
