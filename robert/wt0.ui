@@ -144,6 +144,11 @@
     </column>
     <column>
      <property name="text">
+      <string>scaled</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
       <string>예측치</string>
      </property>
     </column>
@@ -271,7 +276,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>24</height>
     </rect>
    </property>
   </widget>
