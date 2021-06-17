@@ -21,7 +21,7 @@ class MyWindow(QMainWindow, form_class):
         self.spinBox.valueChanged.connect(self.spinBoxChanged)
 
         self.tableWidget.setRowCount(100)
-        self.tableWidget.setColumnCount(3)
+        self.tableWidget.setColumnCount(4)
         self.tableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
 
         self.tableWidget.cellDoubleClicked.connect(self.table_DoubleClicked)
@@ -67,19 +67,35 @@ class MyWindow(QMainWindow, form_class):
         y_val = df_cell.ResistValue.to_numpy()
         t_val = df_cell.KeyTime.to_numpy()
 
+    
+        sc1 = MinMaxScaler()
+        scale_cols = ['ResistValue']
+        df_scaled = sc1.fit_transform(df_cell[scale_cols])
+        df_scaled = pd.DataFrame(df_scaled)
+        df_scaled.columns = scale_cols
+        print("df_scaled")
+        print(df_scaled)
+        scaled_val = df_scaled.ResistValue.to_numpy()
+
+
         global s_val
-        s_val = df_cell.ResistValue
+        s_val = df_scaled.ResistValue
         
         self.tableWidget.setRowCount(len(df_cell))
         for i in range(0, len(y_val)):
+            s = '{0:0.3f}'.format(scaled_val[i])
+            #print(s)
+            itemY = QTableWidgetItem(s)
+            self.tableWidget.setItem(i,2,itemY)     # scaled_val
+
             s = '{0:0.3f}'.format(y_val[i])
             #print(s)
             itemY = QTableWidgetItem(s)
-            self.tableWidget.setItem(i,1,itemY)
+            self.tableWidget.setItem(i,1,itemY)     # ResistValue
             s = '{}'.format(t_val[i])
             #print(s)
             itemY = QTableWidgetItem(s)
-            self.tableWidget.setItem(i,0,itemY)    
+            self.tableWidget.setItem(i,0,itemY)    # time stamp
 
 
         for i in range(0, 10):
@@ -116,7 +132,7 @@ class MyWindow(QMainWindow, form_class):
             #print(s)
             itemY = QTableWidgetItem(s)
             if i+st+1 < len(df_cell):
-                self.tableWidget.setItem(i+st+1,2,itemY)
+                self.tableWidget.setItem(i+st+1,3,itemY)
 
         for i in range(0, 20):
             s = '{0:0.3f}'.format(pred[i,0])
@@ -143,7 +159,7 @@ class MyWindow(QMainWindow, form_class):
 
 
     def setTableWidgetData(self):
-        column_headers = ['타임 스템프', '내부저항', '예측치']
+        column_headers = ['타임 스템프', '내부저항', 'scaled', '예측치']
         self.tableWidget.setHorizontalHeaderLabels(column_headers)
         self.tableWidget.resizeColumnsToContents()
         self.tableWidget.resizeRowsToContents()
@@ -161,8 +177,24 @@ class MyWindow(QMainWindow, form_class):
         y_val = df_cell.ResistValue.to_numpy()
         t_val = df_cell.KeyTime.to_numpy()
 
+        sc1 = MinMaxScaler()
+        scale_cols = ['ResistValue']
+        df_scaled = sc1.fit_transform(df_cell[scale_cols])
+        df_scaled = pd.DataFrame(df_scaled)
+        df_scaled.columns = scale_cols
+        print("df_scaled")
+        print(df_scaled)
+        scaled_val = df_scaled.ResistValue.to_numpy()
+
+        s_val = df_scaled.ResistValue        
+
         self.tableWidget.setRowCount(len(df_cell))
         for i in range(0, len(y_val)):
+            s = '{0:0.3f}'.format(scaled_val[i])
+            #print(s)
+            itemY = QTableWidgetItem(s)
+            self.tableWidget.setItem(i,2,itemY)     # scaled_val
+
             s = '{0:0.3f}'.format(y_val[i])
             #print(s)
             itemY = QTableWidgetItem(s)
